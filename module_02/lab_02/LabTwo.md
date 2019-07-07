@@ -65,7 +65,7 @@ variable "availability_zone" {
 
 9. Now- as stated before this is a __public__ subnet- so obviously we would like it to be internet-accessible (again- we'll do both a PUBLIC and PRIVATE subnet- the PRIVATE one will talk to our Database and be the location of most of our app code while the PUBLIC subnet will handle the front end). This means that a **gateway** is needed to allow internet access through our cloud network. This means a **gateway resource**
 
-![gateway](./images/gateway.jpg)
+![gateway](../../images/gateway.jpg)
 
 10. Add the following to your **vpc.tf** file:
 
