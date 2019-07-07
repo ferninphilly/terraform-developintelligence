@@ -146,21 +146,21 @@ resource "aws_instance" "myfirstec2" {
 
 16. OKAY! That's it...we're ready to **init/plan/apply!**.
 
-![makeitso](./images/makeitso.png)
+![makeitso](../../images/makeitso.png)
 
 17. As our last step we're going to go into the console and make sure that our "webserver" exists...so log into your aws account and check that it exists first:
 
-![webserverexists](./images/webserverexists.png)
+![webserverexists](../../images/webserverexists.png)
 
 18. Now check that your new VPC and security groups exist by going to the VPC section in the management console and checking for TAGS (as we can't name the vpc on launch you can name it now...it's the one with the ENVIRONMENT: DEVELOPMENT tag associated with it):
 
-![vpcverify](./images/vpcverify.png)
+![vpcverify](../../images/vpcverify.png)
 
 19. And finally...security groups...on the left side of the screen and it should have INBOUND RULES that say "PORT 22" is open:
 
-![secgruverify](./images/secgruverify.png)
+![secgruverify](../../images/secgruverify.png)
 
-### OUTPUTS
+### Quick review of OUTPUTS
 
 1. So the biggest pain about that last scenario (when we are doing our verifications)was going in to the aws management console and figuring out which resource we created. NAME wasn't always associated (or possible to add)...so the ideal would be that once we create everything we would OUTPUT it. THAT (at long last) is where our OUTPUT.TF file will come in handy.
 
@@ -191,3 +191,6 @@ output "vpc_id_so_we_can_spot_easily" {
 7. ALSO- try running this feature: `terraform graph` and you get a nice little output of your dependencies. IF you're feeling fancy you can create a nice visualization of your current infrastructure with `terraform graph | dot -Tpng > graph.png`!
     * **WARNING**- if you're on mac you may have to install graphviz with `brew install graphviz`. If you're on windows you can install [here](https://graphviz.gitlab.io/download/)
 
+## Provisioning
+
+1. So congratulations- we've managed to create some EC2 instances BUT....now we want to provision them somehow (I mean...an empty ec2 instance is nice but really-- what good is it??). SO- it's time to look at how, when we launch an ec2 instance, we ensure that it looks like all of the other ec2 instances in our network!
