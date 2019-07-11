@@ -15,6 +15,13 @@ resource "aws_instance" "myfirstec2" {
   }
 }
 
+resource "aws_eip" "practice_eip" {
+  vpc       = true
+  tags = {
+    Environment = var.environment_tag
+  }
+}
+
 resource "aws_key_pair" "ec2key" {
   key_name   = "myec2key"
   public_key = file("./keys/practicekey.pub")
