@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  tasks:
+
+    - name: Install nginx
+      yum:
+        name: nginx
+        state: latest
+
+    - name: Create a directory called images
+      file: path=/usr/share/nginx/html/images state=directory mode=0755
+
+    - name: Upload first image
+      copy:
+        src: "./website/index.html"
+        dest: "/usr/share/nginx/html/images"
+        mode: 0644
+
+  handlers:
+    - name: start Nginx
+      service: name=nginx state=started

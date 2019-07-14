@@ -10,6 +10,15 @@ variable "profile" {
     default = "codices"
 }
 
+variable "environment_tag" {
+    type="string"
+    description = "The environment to tag resources with"
+    default = "development"
+}
+
+data "aws_iam_user" "helloitsme" {
+  user_name = "dimos"
+}
 
 
 

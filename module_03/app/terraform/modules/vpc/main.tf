@@ -89,7 +89,7 @@ resource "aws_route_table_association" "rta_subnet_private" {
 }
 
 resource "aws_nat_gateway" "practice_nat" {
-    allocation_id = aws_eip.practice_eip.id
+    allocation_id = var.eip_id
     subnet_id = aws_subnet.subnet_public.id
     depends_on = ["aws_internet_gateway.igw"]
 }
