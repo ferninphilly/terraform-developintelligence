@@ -328,7 +328,9 @@ module "vpc" {
 
 5. IF YOU WANT- add in that ami and add in any new provisioners you would as a challenge. 
 
-### Taints and Workspaces
+### DRIFT and Workspaces
+
+#### Workspaces
 
 1. So great- you've got a fantastic system and remote back end BUT-- you also want to create a **fresh** back end in your same system. WHY? Well...let's say you wanted to __test__ some changes to your terraform back end by creating what amounts to a COPY of the current back end without messing with the original? Well...enter **workspaces**
 
@@ -337,3 +339,48 @@ module "vpc" {
 3. Now you can run `terraform plan` and you will see that your new workspace has __no idea about any of the already created resources__ which mean, of course, that if you `terraform apply` here you will create second "copies" of the resources that you have created.  
 
 4. SO- from a process perspective what you have here is a chance to use __workspaces__ as the equivalent of __git branches__ in version control in which the __default__ branch (which cannot be deleted) is the equivalent of the __master__ branch and the workspaces align with branch names (which usually align with ticket numbers in my experience!)
+
+#### DRIFT
+
+1. Now on to one of the biggest problems with managing **infrastructure-as-code** and that is in the case of **drift**.
+
+2. **DRIFT** - at the simplest level- is the difference between what you have in your __infrastructure code__ an what you have __in reality__ (i.e: In the cloud). It is a __constant__ hassle, when managing infrastructure as code, to manage __drift__. Enter `terraform refresh`. 
+
+3. So the first thing to know about **refresh** is that it runs automatically, behind the scenes, every time you run `terraform plan` or `terraform apply`. It is basically looking at the resources managed by terraform and figuring out the differences. Let's quickly create and alter a resource that we can take a look at how this works.
+
+4. `terraform destroy` everything and then overwrite your **main.tf** file just to create this instance:
+
+```terraform
+resource "aws_instance" "example" {
+  ami           = "ami-656be372"
+  instance_type = "t1.micro"
+  tags {
+    drift_example = "v1"
+  }
+}
+```
+
+5. Now push that with a `terraform plan && terraform apply`. Now change your file to this:
+
+```terraform
+resource "aws_instance" "example" {
+  ami           = "ami-656be372"
+  instance_type = "t1.micro"
+  tags {
+    drift_example = "v2"
+  }
+}
+```
+
+6. Notice the change to **v2**? Run a `terraform refresh` and look at the output. Did you get something like:
+
+```terraform
+Terraform will perform the following actions:
+
+  ~ aws_instance.example
+      tags.drift_example: "v2" => "v1"
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+```
+
+7. So this is how state is managed. Fine. WHAT IF, though, you had a scenario where you wanted to make a significant change...for instance to an AMI?

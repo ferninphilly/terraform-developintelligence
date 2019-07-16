@@ -4,4 +4,4 @@
 
 2. Create and provision an IMAGE with packer that can act as the AMI for an ec2 instance that you can pass around (so you don't need to provision new servers every time- instead the image is already created with packer). Your choice on redhat or ubuntu or amazon linux.
 
-3. 
+3. How would we deal with **drift** here? Add in a **create_before_destroy** and **do_n
