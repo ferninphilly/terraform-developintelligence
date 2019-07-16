@@ -8,4 +8,4 @@
 
 4. Using **data sources** from your already deployed vpc- go ahead and add your **aws_lambda_function** and **rds** into that vpc. 
 
-5. Push your modules to a repository for others to share. Create and provision EC2 instances that would be useful in your own day to day work.
+5. Let's say that you have a broken resource? How would  you **taint** that resource so that it was rebuilt every time it was accessed? You will need to google this one but go in and **taint** one of your ec2 instances.

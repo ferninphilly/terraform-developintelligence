@@ -328,4 +328,12 @@ module "vpc" {
 
 5. IF YOU WANT- add in that ami and add in any new provisioners you would as a challenge. 
 
-## Congratulations guys!!
+### Taints and Workspaces
+
+1. So great- you've got a fantastic system and remote back end BUT-- you also want to create a **fresh** back end in your same system. WHY? Well...let's say you wanted to __test__ some changes to your terraform back end by creating what amounts to a COPY of the current back end without messing with the original? Well...enter **workspaces**
+
+2.**Workspaces** allow us to create an isolated workspace that, basically and in essence, renames your **tfstate** file so that it remains isolated from the **main** tfstate file (which we're keeping remotely). You create a new **terraform** workspace with this command: `terraform workspace new hereismyworkspace` (obviously you would  use the name of the workspace there). Go ahead and do that now.
+
+3. Now you can run `terraform plan` and you will see that your new workspace has __no idea about any of the already created resources__ which mean, of course, that if you `terraform apply` here you will create second "copies" of the resources that you have created.  
+
+4. SO- from a process perspective what you have here is a chance to use __workspaces__ as the equivalent of __git branches__ in version control in which the __default__ branch (which cannot be deleted) is the equivalent of the __master__ branch and the workspaces align with branch names (which usually align with ticket numbers in my experience!)
