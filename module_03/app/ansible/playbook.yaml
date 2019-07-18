@@ -19,6 +19,8 @@
         src: "./website/index.html"
         dest: "/usr/share/nginx/html/images"
         mode: 0644
+      notify:
+        start Nginx
 
   handlers:
     - name: start Nginx
